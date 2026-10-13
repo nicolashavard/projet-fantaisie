@@ -1,0 +1,15 @@
+[gd_scene format=3 uid="uid://dbgj2ew6l2mt1"]
+
+[ext_resource type="Script" uid="uid://wxh8hpa5ypaa" path="res://assets/scripts/Camera.gd" id="1_8ukrm"]
+
+[node name="CameraGimbal" type="Node3D" unique_id=1284620477]
+script = ExtResource("1_8ukrm")
+
+[node name="InnerGimbal" type="Node3D" parent="." unique_id=1740694019]
+
+[node name="SpringArm3D" type="SpringArm3D" parent="InnerGimbal" unique_id=439261078]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.5, 0)
+spring_length = 5.0
+
+[node name="Camera3D" type="Camera3D" parent="InnerGimbal/SpringArm3D" unique_id=1695485715]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 4)

@@ -1,0 +1,114 @@
+[gd_scene format=3 uid="uid://dnw1oxa4vid6w"]
+
+[ext_resource type="Script" uid="uid://db2a051ev26dw" path="res://assets/scripts/Player.gd" id="1_vrdco"]
+[ext_resource type="PackedScene" uid="uid://dq28ej6rhu4qh" path="res://assets/scenes/barbarian.tscn" id="2_y4xuf"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_snf3g"]
+size = Vector3(1, 2.3, 1)
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_y4xuf"]
+animation = &"Player/Idle_A"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_b5i5n"]
+animation = &"Player/Running_A"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_ft5m3"]
+animation = &"Player/Running_Strafe_Left"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_vrdco"]
+animation = &"Player/Running_Strafe_Right"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_ixw0e"]
+animation = &"Player/Walking_Backwards"
+
+[sub_resource type="AnimationNodeBlendSpace2D" id="AnimationNodeBlendSpace2D_4wvqw"]
+blend_point_0/node = SubResource("AnimationNodeAnimation_y4xuf")
+blend_point_0/pos = Vector2(0, 0)
+blend_point_0/name = &"Player_Idle_A"
+blend_point_1/node = SubResource("AnimationNodeAnimation_b5i5n")
+blend_point_1/pos = Vector2(0, 1)
+blend_point_1/name = &"Player_Running_A"
+blend_point_2/node = SubResource("AnimationNodeAnimation_ft5m3")
+blend_point_2/pos = Vector2(-1, 0)
+blend_point_2/name = &"Player_Running_Strafe_Left"
+blend_point_3/node = SubResource("AnimationNodeAnimation_vrdco")
+blend_point_3/pos = Vector2(1, 0)
+blend_point_3/name = &"Player_Running_Strafe_Right"
+blend_point_4/node = SubResource("AnimationNodeAnimation_ixw0e")
+blend_point_4/pos = Vector2(0, -1)
+blend_point_4/name = &"Player_Walking_Backwards"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_qu62d"]
+animation = &"Player/Jump_Idle"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_addju"]
+animation = &"Player/Jump_Land"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_aglt4"]
+animation = &"Player/Jump_Start"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_jc3ay"]
+animation = &"Player/Melee_1H_Attack_Chop"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_mc6or"]
+advance_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_tbdie"]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_o17ru"]
+switch_mode = 2
+advance_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_70xhv"]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_4byaf"]
+advance_mode = 2
+advance_condition = &"jumping"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_y6cad"]
+switch_mode = 2
+advance_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_cev76"]
+advance_mode = 2
+advance_condition = &"grounded"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_ha5lq"]
+xfade_time = 0.5
+switch_mode = 2
+advance_mode = 2
+
+[sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_ixw0e"]
+states/IWR/node = SubResource("AnimationNodeBlendSpace2D_4wvqw")
+states/IWR/position = Vector2(481, 67)
+states/Jump_Idle/node = SubResource("AnimationNodeAnimation_qu62d")
+states/Jump_Idle/position = Vector2(481, 261)
+states/Jump_Land/node = SubResource("AnimationNodeAnimation_addju")
+states/Jump_Land/position = Vector2(602, 163)
+states/Jump_Start/node = SubResource("AnimationNodeAnimation_aglt4")
+states/Jump_Start/position = Vector2(333, 163)
+states/Melee_1H_Attack_Chop/node = SubResource("AnimationNodeAnimation_jc3ay")
+states/Melee_1H_Attack_Chop/position = Vector2(373, -95)
+transitions = ["Start", "IWR", SubResource("AnimationNodeStateMachineTransition_mc6or"), "IWR", "Melee_1H_Attack_Chop", SubResource("AnimationNodeStateMachineTransition_tbdie"), "Melee_1H_Attack_Chop", "IWR", SubResource("AnimationNodeStateMachineTransition_o17ru"), "IWR", "Jump_Idle", SubResource("AnimationNodeStateMachineTransition_70xhv"), "IWR", "Jump_Start", SubResource("AnimationNodeStateMachineTransition_4byaf"), "Jump_Start", "Jump_Idle", SubResource("AnimationNodeStateMachineTransition_y6cad"), "Jump_Idle", "Jump_Land", SubResource("AnimationNodeStateMachineTransition_cev76"), "Jump_Land", "IWR", SubResource("AnimationNodeStateMachineTransition_ha5lq")]
+graph_offset = Vector2(-232, -114)
+
+[node name="Player" type="CharacterBody3D" unique_id=1142718775]
+script = ExtResource("1_vrdco")
+
+[node name="Pivot" type="Node3D" parent="." unique_id=483395279]
+
+[node name="Barbarian" parent="Pivot" unique_id=1127410663 instance=ExtResource("2_y4xuf")]
+transform = Transform3D(-1, 0, 1.509958e-07, 0, 1, 0, -1.509958e-07, 0, -1, 0, 0, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1871364155]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.15, 0)
+shape = SubResource("BoxShape3D_snf3g")
+
+[node name="AnimationTree" type="AnimationTree" parent="." unique_id=1295967665]
+unique_name_in_owner = true
+root_node = NodePath("%AnimationTree/../Pivot/Barbarian")
+tree_root = SubResource("AnimationNodeStateMachine_ixw0e")
+anim_player = NodePath("../Pivot/Barbarian/AnimationPlayer")
+parameters/conditions/grounded = false
+parameters/conditions/jumping = false
+parameters/IWR/blend_position = Vector2(0, 0)
