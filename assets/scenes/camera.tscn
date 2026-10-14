@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://wxh8hpa5ypaa" path="res://assets/scripts/Camera.gd" id="1_8ukrm"]
 
-[node name="CameraGimbal" type="Node3D" unique_id=1284620477]
+[node name="Camera" type="Node3D" unique_id=1284620477]
 script = ExtResource("1_8ukrm")
 
 [node name="InnerGimbal" type="Node3D" parent="." unique_id=1740694019]

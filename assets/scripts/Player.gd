@@ -1,7 +1,10 @@
 extends CharacterBody3D
 
 var camera: Node3D
-@export var speed = 5.0
+
+@export var running_speed = 5.0
+@export var sprint_speed = 10.0
+@export var speed = running_speed
 @export var jump_velocity = 4.5
 
 @onready var anim_tree = $AnimationTree
@@ -10,12 +13,33 @@ var camera: Node3D
 var target_velocity = Vector3.ZERO
 var jumping = false
 var last_floor = true
+var sprinting = false
+var is_already_falling = false
 
 func _ready() -> void:
-	camera = %Camera
+	if %Camera:
+		camera = %Camera
 
 
 func _physics_process(delta):
+	# Handle interaction.
+	if Input.is_action_just_pressed("interact"):
+		#anim_tree.set("parameters/conditions/interact", true)
+		anim_state.travel("Interact")
+		
+	# Handle sprint.
+	if Input.is_action_just_pressed("sprint") and is_on_floor():
+		sprinting = true
+		#speed = sprint_speed
+		
+	if Input.is_action_just_released("sprint") and is_on_floor():
+		sprinting = false
+		#speed = running_speed
+		
+	anim_tree.set("parameters/conditions/not_sprinting", not sprinting)
+	anim_tree.set("parameters/conditions/sprinting", sprinting)
+	speed = sprint_speed if sprinting else running_speed
+	
 	# Handle jump.
 	if Input.is_action_just_pressed("jump") and is_on_floor():
 		target_velocity.y = jump_velocity
@@ -25,18 +49,22 @@ func _physics_process(delta):
 	
 	# We just hit the floor after being in the air
 	if is_on_floor() and not last_floor:
+		is_already_falling = false
 		jumping = false
 		anim_tree.set("parameters/conditions/grounded", true)
 	last_floor = is_on_floor()
 	
 	# We're in the air, but we didn't jump
-	if not is_on_floor() and not jumping:
+	if not is_on_floor() and not jumping and not is_already_falling:
+		is_already_falling = true
 		anim_state.travel("Jump_Idle")
 		anim_tree.set("parameters/conditions/grounded", false)
 
 	# Get the input direction and handle the movement/deceleration.
 	var input_dir := Input.get_vector("move_left", "move_right", "move_forward", "move_back")
-	var direction = input_dir.rotated(-camera.rotation.y)
+	var direction = input_dir
+	if camera:
+		direction = input_dir.rotated(-camera.rotation.y)
 
 	# Ground Velocity
 	target_velocity.x = direction.x * speed

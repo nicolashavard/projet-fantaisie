@@ -1,0 +1,27 @@
+[gd_scene format=3 uid="uid://btfqe2aux1sv8"]
+
+[ext_resource type="MeshLibrary" uid="uid://fqkc8q1ys0j3" path="res://assets/gridmap/meshlibs/floor.tres" id="1_2aew2"]
+[ext_resource type="PackedScene" uid="uid://dnw1oxa4vid6w" path="res://assets/scenes/Player.tscn" id="3_2aew2"]
+[ext_resource type="PackedScene" uid="uid://cno14pym31204" path="res://assets/scenes/skeleton_minion.tscn" id="3_v4g2a"]
+
+[node name="BattleMap" type="Node3D" unique_id=1999657361]
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=879798041]
+transform = Transform3D(1, 0, 0, 0, 0.09930662, 0.99505687, 0, -0.99505687, 0.09930662, 0, 2.119586, 0)
+
+[node name="Camera3D" type="Camera3D" parent="." unique_id=126954223]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.2539928, 2.68577, 6.1550665)
+
+[node name="Ground" type="Node3D" parent="." unique_id=412243842]
+
+[node name="GridMapFloor" type="GridMap" parent="Ground" unique_id=1410719338]
+mesh_library = ExtResource("1_2aew2")
+data = {
+"cells": PackedInt32Array(65530, 65533, 6, 65530, 65534, 6, 65530, 65535, 6, 65530, 0, 6, 65530, 1, 6, 65531, 65533, 6, 65531, 65534, 6, 65531, 65535, 6, 65531, 0, 6, 65531, 1, 6, 65532, 65533, 6, 65532, 65534, 6, 65532, 65535, 6, 65532, 0, 6, 65532, 1, 6, 65533, 65533, 6, 65533, 65534, 6, 65533, 65535, 6, 65533, 0, 6, 65533, 1, 6, 65534, 65533, 6, 65534, 65534, 6, 65534, 65535, 6, 65534, 0, 6, 65534, 1, 6, 65535, 65533, 6, 65535, 65534, 6, 65535, 65535, 6, 65535, 0, 6, 65535, 1, 6, 0, 65533, 6, 0, 65534, 6, 0, 65535, 6, 0, 0, 6, 0, 1, 6, 1, 65533, 6, 1, 65534, 6, 1, 65535, 6, 1, 0, 6, 1, 1, 6)
+}
+
+[node name="Skeleton_Minion" parent="." unique_id=536038144 instance=ExtResource("3_v4g2a")]
+transform = Transform3D(-0.03314941, 0, 0.9994504, 0, 1, 0, -0.9994504, 0, -0.03314941, -8.779768, 1.0750263, -0.14890957)
+
+[node name="Player" parent="." unique_id=1142718775 instance=ExtResource("3_2aew2")]
+transform = Transform3D(0.1680171, 0, 0.98578405, 0, 1, 0, -0.98578405, 0, 0.1680171, 1.7354069, 1.0749993, 0.22323608)
