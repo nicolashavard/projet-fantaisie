@@ -28,6 +28,7 @@ version_control/autoload_on_startup=true
 [global_group]
 
 player=""
+enemy=""
 
 [input]
 
@@ -86,6 +87,13 @@ sprint={
 "events": [Object(InputEventJoypadMotion,"resource_local_to_scene":false,"resource_name":"","device":-1,"axis":4,"axis_value":1.0,"script":null)
 ]
 }
+
+[layer_names]
+
+3d_physics/layer_1="world"
+3d_physics/layer_2="player"
+3d_physics/layer_3="enemy"
+3d_physics/layer_4="trigger"
 
 [physics]
 

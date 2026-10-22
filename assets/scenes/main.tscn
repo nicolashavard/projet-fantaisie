@@ -64,7 +64,6 @@ data = {
 }
 
 [node name="GridMapCeil" type="GridMap" parent="GridMaps" unique_id=486590980]
-visible = false
 mesh_library = ExtResource("5_etxf0")
 cell_size = Vector3(4, 2, 4)
 data = {

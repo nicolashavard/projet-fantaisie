@@ -1,0 +1,36 @@
+[gd_scene format=3 uid="uid://xn352fhd8ewd"]
+
+[ext_resource type="PackedScene" uid="uid://ttbkgd88jimh" path="res://assets/scenes/light_pivot.tscn" id="1_7tegi"]
+[ext_resource type="MeshLibrary" uid="uid://fqkc8q1ys0j3" path="res://assets/gridmap/meshlibs/floor.tres" id="1_otbkh"]
+[ext_resource type="MeshLibrary" uid="uid://bmi5vvanydum" path="res://assets/gridmap/meshlibs/wall.tres" id="2_7tegi"]
+[ext_resource type="MeshLibrary" uid="uid://4bxtmdglbvxa" path="res://assets/gridmap/meshlibs/stair.tres" id="3_ydi13"]
+[ext_resource type="MeshLibrary" uid="uid://bpwkkh7yrfk3w" path="res://assets/gridmap/meshlibs/ceil.tres" id="4_pk5sg"]
+
+[node name="Sample" type="Node3D" unique_id=2064315373]
+
+[node name="LightPivot" parent="." unique_id=1618663839 instance=ExtResource("1_7tegi")]
+
+[node name="GridMaps" type="Node3D" parent="." unique_id=1308254225]
+
+[node name="GridMapFloor" type="GridMap" parent="GridMaps" unique_id=27468620]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+mesh_library = ExtResource("1_otbkh")
+cell_size = Vector3(2, 1, 2)
+metadata/_editor_floor_ = Vector3(0, 0, 0)
+
+[node name="GridMapWall" type="GridMap" parent="GridMaps" unique_id=1855026042]
+mesh_library = ExtResource("2_7tegi")
+cell_size = Vector3(4, 4, 4)
+metadata/_editor_floor_ = Vector3(0, 0, 0)
+
+[node name="GridMapStair" type="GridMap" parent="GridMaps" unique_id=1277671591]
+mesh_library = ExtResource("3_ydi13")
+cell_size = Vector3(4, 4, 4)
+metadata/_editor_floor_ = Vector3(0, 0, 0)
+
+[node name="GridMapCeilling" type="GridMap" parent="GridMaps" unique_id=1491215314]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.1, 0)
+mesh_library = ExtResource("4_pk5sg")
+cell_size = Vector3(2, 4, 2)
+cell_scale = 0.5
+metadata/_editor_floor_ = Vector3(0, 0, 0)

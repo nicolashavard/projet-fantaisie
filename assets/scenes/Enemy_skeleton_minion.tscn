@@ -1,0 +1,94 @@
+[gd_scene format=3 uid="uid://mcpctlctmse1"]
+
+[ext_resource type="Script" uid="uid://b7ocf6k6n4uru" path="res://assets/scripts/Enemy.gd" id="1_87yuy"]
+[ext_resource type="PackedScene" uid="uid://cno14pym31204" path="res://assets/scenes/skeleton_minion.tscn" id="1_ko4ra"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_87yuy"]
+margin = 1.238
+radius = 0.6
+height = 2.4
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_87yuy"]
+animation = &"Player/Idle_A"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_5i44f"]
+animation = &"Player/Running_A"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_pd78c"]
+animation = &"Player/Walking_A"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_8l335"]
+advance_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_w7md3"]
+advance_mode = 2
+advance_condition = &"walking"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_rgofp"]
+advance_mode = 2
+advance_condition = &"not_walking"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_jwfaa"]
+advance_condition = &"running"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_mgy07"]
+advance_mode = 2
+advance_condition = &"not_running"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_d7lmw"]
+advance_condition = &"walking"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_lk3k8"]
+advance_condition = &"running"
+
+[sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_w7md3"]
+states/Player_Idle_A/node = SubResource("AnimationNodeAnimation_87yuy")
+states/Player_Idle_A/position = Vector2(485, 57)
+states/Player_Running_A/node = SubResource("AnimationNodeAnimation_5i44f")
+states/Player_Running_A/position = Vector2(662, 193)
+states/Player_Walking_A/node = SubResource("AnimationNodeAnimation_pd78c")
+states/Player_Walking_A/position = Vector2(279, 193)
+states/Start/position = Vector2(164, 57)
+transitions = ["Start", "Player_Idle_A", SubResource("AnimationNodeStateMachineTransition_8l335"), "Player_Idle_A", "Player_Walking_A", SubResource("AnimationNodeStateMachineTransition_w7md3"), "Player_Walking_A", "Player_Idle_A", SubResource("AnimationNodeStateMachineTransition_rgofp"), "Player_Idle_A", "Player_Running_A", SubResource("AnimationNodeStateMachineTransition_jwfaa"), "Player_Running_A", "Player_Idle_A", SubResource("AnimationNodeStateMachineTransition_mgy07"), "Player_Running_A", "Player_Walking_A", SubResource("AnimationNodeStateMachineTransition_d7lmw"), "Player_Walking_A", "Player_Running_A", SubResource("AnimationNodeStateMachineTransition_lk3k8")]
+graph_offset = Vector2(-232, -114)
+
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_1bibe"]
+points = PackedVector3Array(0, 0, 0, 7.5, 0, 2.5, 15, 0, 10, -7.5, 0, 2.5, -15, 0, 10, 10, 0, 17.5, -10, 0, 17.5, 0, 0, 20)
+
+[node name="SkeletonMinion" type="CharacterBody3D" unique_id=414227784 groups=["enemy"]]
+collision_layer = 4
+collision_mask = 3
+script = ExtResource("1_87yuy")
+vitesse = 6.0
+
+[node name="Skeleton_Minion" parent="." unique_id=536038144 instance=ExtResource("1_ko4ra")]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=42068036]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2050804, 0)
+shape = SubResource("CapsuleShape3D_87yuy")
+
+[node name="AnimationTree" type="AnimationTree" parent="." unique_id=2011084823]
+unique_name_in_owner = true
+root_node = NodePath("%AnimationTree/../Skeleton_Minion")
+tree_root = SubResource("AnimationNodeStateMachine_w7md3")
+anim_player = NodePath("../Skeleton_Minion/AnimationPlayer")
+parameters/conditions/not_running = false
+parameters/conditions/not_walking = false
+parameters/conditions/running = false
+parameters/conditions/walking = false
+
+[node name="VisionField" type="Area3D" parent="." unique_id=1176184552]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, 1.6, 0)
+collision_layer = 4
+collision_mask = 2
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="VisionField" unique_id=782891723]
+shape = SubResource("ConvexPolygonShape3D_1bibe")
+debug_color = Color(0.9324204, 0.24085817, 0.2645619, 0.41960785)
+
+[node name="Rayon" type="RayCast3D" parent="VisionField" unique_id=312247391]
+unique_name_in_owner = true
+collision_mask = 3
+
+[connection signal="body_entered" from="VisionField" to="." method="_on_vision_body_entered"]
+[connection signal="body_exited" from="VisionField" to="." method="_on_vision_field_body_exited"]
